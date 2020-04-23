@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/delete_comment_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/denk_one"
+        android:paddingLeft="10dp"
+        android:text="Delete Comment"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:stateListAnimator="@null"
+        android:background="@drawable/button_selection"/>
+
+</LinearLayout>

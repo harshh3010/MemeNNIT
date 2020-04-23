@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home"
+    >
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.codebee.v2.memennit.ui.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home"
+        >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_post"
+            app:destination="@id/navigation_post" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_leaderboard"
+            app:destination="@id/navigation_leaderboard" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_profile2"
+            app:destination="@id/navigation_profile2" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_post"
+        android:name="com.codebee.v2.memennit.ui.PostFragment"
+        android:label="Post"
+        tools:layout="@layout/fragment_post" />
+
+    <fragment
+        android:id="@+id/navigation_leaderboard"
+        android:name="com.codebee.v2.memennit.ui.LeaderboardFragment"
+        android:label="Leaderboard"
+        tools:layout="@layout/fragment_leaderboard"
+        />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.codebee.v2.memennit.ui.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/navigation_profile2"
+        android:name="com.codebee.v2.memennit.ui.ProfileFragment2"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile2" />
+
+</navigation>

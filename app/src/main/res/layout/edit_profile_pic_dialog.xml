@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/edit_new_profile_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_selection"
+        android:fontFamily="@font/denk_one"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:stateListAnimator="@null"
+        android:text="New profile picture"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/edit_remove_profile_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_selection"
+        android:fontFamily="@font/denk_one"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:stateListAnimator="@null"
+        android:text="Remove profile picture"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false" />
+</LinearLayout>
