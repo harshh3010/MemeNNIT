@@ -29,6 +29,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CommentActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -136,6 +138,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                                         }
                                         pd.dismiss();
                                         Toast.makeText(CommentActivity.this,"Comment posted !",Toast.LENGTH_LONG).show();
+                                        sendCommentNotification(comment);
                                     }
                                 });
                     }
@@ -194,5 +197,16 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
             comment.setCommentContent(comment_txt.getText().toString());
             postComment(comment);
         }
+    }
+
+    private void sendCommentNotification(Comment comment){
+        Map<String,String> data = new HashMap<>();
+        data.put("recieverUsername",post.getUsername());
+        data.put("title",userApi.getFName() + " commented on your post.");
+        data.put("content",comment.getCommentContent());
+
+        db.collection("Notifications")
+                .document()
+                .set(data);
     }
 }

@@ -30,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -61,6 +62,13 @@ public class PostActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
+            String newToken = instanceIdResult.getToken();
+            db.collection("Users")
+                    .document(userApi.getUsername())
+                    .update("fcm",newToken);
+        });
 
         options_img.setOnClickListener(new View.OnClickListener() {
             @Override

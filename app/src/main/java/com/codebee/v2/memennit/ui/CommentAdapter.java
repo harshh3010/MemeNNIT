@@ -211,6 +211,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                                         loadReplies(position,holder);
                                         pd.dismiss();
                                         Toast.makeText(context,"Reply posted !",Toast.LENGTH_LONG).show();
+                                        sendCommentNotification(reply);
+                                        sendReplyNotification(reply,position);
                                     }
                                 });
                     }
@@ -222,6 +224,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             }
         });
     }
+
 
     public void loadReplies(int position,ViewHolderClass holder){
 
@@ -392,6 +395,28 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             }
         });
         builder.show();
+    }
+
+    private void sendCommentNotification(Reply r){
+        Map<String,String> data = new HashMap<>();
+        data.put("recieverUsername",post.getUsername());
+        data.put("title",userApi.getFName() + " replied to a comment on your post.");
+        data.put("content",r.getReplyContent());
+
+       db.collection("Notifications")
+               .document()
+               .set(data);
+    }
+
+    private void sendReplyNotification(Reply r, int position) {
+        Map<String,String> data = new HashMap<>();
+        data.put("recieverUsername",myArr.get(position).getUsername());
+        data.put("title",userApi.getFName() + " replied to your comment on " + post.getUsername() + "'s post.");
+        data.put("content",r.getReplyContent());
+
+        db.collection("Notifications")
+                .document()
+                .set(data);
     }
 
 }
