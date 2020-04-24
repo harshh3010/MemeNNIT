@@ -39,28 +39,40 @@ public class LeaderboardFragment extends Fragment {
 
         leaderboardRecyclerView = view.findViewById(R.id.leaderboard_recycler_view);
 
-        setupLeaderboard();
+        generateLeaderboard();
 
         return  view;
     }
 
-    public  void setupLeaderboard(){
-        leaderboardArrayList = new ArrayList<>();
+    public void generateLeaderboard(){
+            leaderboardArrayList = new ArrayList<>();
+            list = new ArrayList<>();
 
-        db.collection("Users")
-                .orderBy("rank")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for(QueryDocumentSnapshot snapshot : queryDocumentSnapshots){
-                            leaderboardArrayList.add(snapshot.toObject(User.class));
+            db.collection("Users")
+                    .orderBy("xp", Query.Direction.DESCENDING)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots){
+                                leaderboardArrayList.add(snapshot.toObject(User.class));
+                            }
+                            for(int i = 0;i<leaderboardArrayList.size();i++){
+                                leaderboardArrayList.get(i).setRank(String.valueOf(i+1));
+                                list.add(leaderboardArrayList.get(i).getUsername());
+                            }
+                            arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,list);
+                            adapter = new LeaderboardAdapter(leaderboardArrayList);
+                            leaderboardRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                            leaderboardRecyclerView.setAdapter(adapter);
+                            for(int i = 0;i<leaderboardArrayList.size();i++){
+                                db.collection("Users")
+                                        .document(leaderboardArrayList.get(i).getUsername())
+                                        .update("rank",String.valueOf(i+1));
+                            }
+
                         }
-                        adapter = new LeaderboardAdapter(leaderboardArrayList);
-                        leaderboardRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                        leaderboardRecyclerView.setAdapter(adapter);
-                    }
-                });
-    }
+                    });
+        }
 
 }
