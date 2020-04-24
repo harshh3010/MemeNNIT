@@ -28,6 +28,9 @@ public class LeaderboardFragment extends Fragment {
     private RecyclerView.Adapter adapter;
     private ArrayList<User> leaderboardArrayList;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private SearchView searchView;
+    private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<String> list;
 
     public LeaderboardFragment() {
     }
@@ -38,6 +41,25 @@ public class LeaderboardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_leaderboard,container,false);
 
         leaderboardRecyclerView = view.findViewById(R.id.leaderboard_recycler_view);
+        searchView = view.findViewById(R.id.leaderboard_search_view);
+
+               searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                   @Override
+                   public boolean onQueryTextSubmit(String query) {
+                       if(list.contains(query)){
+                           arrayAdapter.getFilter().filter(query);
+
+                       }else{
+                           Toast.makeText(getContext(), "No Match found",Toast.LENGTH_LONG).show();
+                       }
+                       return false;
+                   }
+
+                   @Override
+                   public boolean onQueryTextChange(String newText) {
+                       return false;
+                   }
+               });
 
         generateLeaderboard();
 
