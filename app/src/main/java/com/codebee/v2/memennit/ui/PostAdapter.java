@@ -6,11 +6,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -67,6 +69,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderClas
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private StorageReference ref = FirebaseStorage.getInstance().getReference("Posts");
     private ProgressDialog pd;
+    private String m_Text = "";
 
     public PostAdapter(ArrayList<Post> myArr) {
         this.myArr = myArr;
@@ -246,6 +249,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderClas
             report_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    dialog1.dismiss();
                     reportPost(position);
                 }
             });
@@ -257,7 +261,54 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderClas
     }
 
     private void reportPost(int position) {
-        //TODO : code to report post
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("What's wrong with the post ?");
+        final EditText input = new EditText(context);
+        input.setInputType(InputType.TYPE_CLASS_TEXT );
+        builder.setView(input);
+        builder.setPositiveButton("Report", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+                m_Text = input.getText().toString();
+                pd = new ProgressDialog(context);
+                pd.setMessage("Please wait...");
+                pd.show();
+
+                Map<String,String> data = new HashMap<>();
+                data.put("reportedBy",userApi.getUsername());
+                data.put("desc",m_Text);
+
+                db.collection("Reports")
+                        .document("Post")
+                        .collection(myArr.get(position).getUsername())
+                        .document(myArr.get(position).getTime())
+                        .set(data)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                pd.dismiss();
+                                Toast.makeText(context,"Reported successfully !",Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
+                        Toast.makeText(context,"Unable to report !",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
+
     }
 
     private void deletePost(final int position) {
@@ -309,6 +360,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderClas
                         db.collection("Users")
                                 .document(userApi.getUsername())
                                 .update("level", String.valueOf(Level));
+                        db.collection("Posts")
+                                .document(userApi.getUsername())
+                                .collection("Upvotes")
+                                .document(myArr.get(position).getTime())
+                                .delete();
+                        db.collection("Posts")
+                                .document(userApi.getUsername())
+                                .collection("Comments")
+                                .document(myArr.get(position).getTime())
+                                .delete();
                     }
                 });
             }
@@ -323,7 +384,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderClas
     }
 
     private void editPost(final int position) {
-
 
         builder2 = new AlertDialog.Builder(context);
         View v = LayoutInflater.from(context).inflate(R.layout.edit_post_dialog,null);
@@ -410,7 +470,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderClas
                                     .collection(myArr.get(position).getUsername())
                                     .document(myArr.get(position).getTime())
                                     .update("upvotes",myArr.get(position).getUpvotes());
-                            sendNotification(position);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -433,7 +492,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderClas
                                     .collection(myArr.get(position).getUsername())
                                     .document(myArr.get(position).getTime())
                                     .update("upvotes",myArr.get(position).getUpvotes());
-                            sendNotification(position);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -444,19 +502,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderClas
                 }
             }
         });
-
-    }
-
-    private void sendNotification(int position) {
-        String message = userApi.getFName() + " " + userApi.getLName() + " liked your post.";
-        Notification notification = new Notification(message,userApi.getEmail(),myArr.get(position).getEmail());
-        if(!userApi.getEmail().equals(myArr.get(position).getEmail())){
-            db.collection("notifications")
-                    .document(myArr.get(position).getEmail())
-                    .collection("userNotifications")
-                    .document()
-                    .set(notification);
-        }
     }
 
     private void dislikePost(int position,ViewHolderClass holder){

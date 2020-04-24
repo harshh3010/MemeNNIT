@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -52,6 +56,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
     private View.OnClickListener x,y;
+    private String m_Text;
 
     public CommentAdapter(ArrayList<Comment> myArr,Post post) {
         this.myArr = myArr;
@@ -278,6 +283,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             view.findViewById(R.id.report_comment_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    dialog.dismiss();
                     reportComment(position);
                 }
             });
@@ -340,7 +346,52 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     }
 
     public void reportComment(int position){
-        //TODO : write comment to report comment
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("What's wrong with the comment ?");
+        final EditText input = new EditText(context);
+        input.setInputType(InputType.TYPE_CLASS_TEXT );
+        builder.setView(input);
+        builder.setPositiveButton("Report", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+                m_Text = input.getText().toString();
+                pd = new ProgressDialog(context);
+                pd.setMessage("Please wait...");
+                pd.show();
+
+                Map<String,String> data = new HashMap<>();
+                data.put("reportedBy",userApi.getUsername());
+                data.put("desc",m_Text);
+
+                db.collection("Reports")
+                        .document("Comments")
+                        .collection(myArr.get(position).getUsername())
+                        .document(myArr.get(position).getId())
+                        .set(data)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                pd.dismiss();
+                                Toast.makeText(context,"Reported successfully !",Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
+                        Toast.makeText(context,"Unable to report !",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 
 }

@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,14 +23,16 @@ import com.codebee.v2.memennit.Util.UserApi;
 
 import java.util.ArrayList;
 
-public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolderClass> {
+public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolderClass>  implements Filterable {
 
     private ArrayList<User> leaderBoardArrayList;
+    private ArrayList<User> leaderBoardArrayListFull;
     private Context context;
     private UserApi userApi = UserApi.getInstance();
 
     public LeaderboardAdapter(ArrayList<User> leaderBoardArrayList) {
         this.leaderBoardArrayList = leaderBoardArrayList;
+        leaderBoardArrayListFull = new ArrayList<>(leaderBoardArrayList);
     }
 
     @NonNull
@@ -50,6 +54,39 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     public int getItemCount() {
         return leaderBoardArrayList.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    private Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<User> filteredList = new ArrayList<>();
+            if(constraint == null || constraint.length()==0){
+                filteredList.addAll(leaderBoardArrayListFull);
+            }else{
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for(User user : leaderBoardArrayListFull){
+                    if(user.getUsername().toLowerCase().contains(filterPattern)){
+                        filteredList.add(user);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return  results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            leaderBoardArrayList.clear();
+            leaderBoardArrayList.addAll((ArrayList)results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public class ViewHolderClass extends RecyclerView.ViewHolder{
         TextView rank_txt,username_txt,xp_txt;
