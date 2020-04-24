@@ -64,5 +64,6 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
         }
     }
 
+    //This is to test whether commit works or not
 
 }
