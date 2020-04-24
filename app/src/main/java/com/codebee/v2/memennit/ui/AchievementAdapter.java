@@ -63,7 +63,5 @@ public class AchievementAdapter extends RecyclerView.Adapter<AchievementAdapter.
             achievementLayout = itemView.findViewById(R.id.achievement_layout);
         }
     }
-
     //This is to test whether commit works or not
-
 }
