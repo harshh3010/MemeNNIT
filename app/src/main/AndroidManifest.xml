@@ -27,13 +27,16 @@
         <activity android:name=".InfoActivity" />
         <activity android:name=".MainActivity" />
         <service
-            android:name=".Notifications.MyFirebaseMessagingService">
+            android:name=".Notifications.MyFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
-
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/logo" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

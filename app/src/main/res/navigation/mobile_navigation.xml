@@ -51,4 +51,10 @@
         android:label="Profile"
         tools:layout="@layout/fragment_profile2" />
 
+    <fragment
+        android:id="@+id/navigation_notification"
+        android:name="com.codebee.v2.memennit.ui.NotificationFragment"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_notifications" />
+
 </navigation>

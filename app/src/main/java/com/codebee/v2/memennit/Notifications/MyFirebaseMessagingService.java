@@ -9,11 +9,17 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
+
+    public MyFirebaseMessagingService() {
+    }
+
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        super.onMessageReceived(remoteMessage);
-
         notifyUser(remoteMessage.getFrom(),remoteMessage.getNotification().getBody());
+    }
+    @Override
+    public void onDeletedMessages() {
+        super.onDeletedMessages();
     }
 
     public void notifyUser(String from,String notification){
@@ -21,5 +27,4 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         myNotificationManager.showNotification(from , notification, new Intent(getApplicationContext(), PostActivity.class));
     }
 
-    //improve this code
 }
