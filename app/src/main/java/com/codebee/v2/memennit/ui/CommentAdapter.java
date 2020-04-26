@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codebee.v2.memennit.Model.Comment;
+import com.codebee.v2.memennit.Model.Notification;
 import com.codebee.v2.memennit.Model.Post;
 import com.codebee.v2.memennit.Model.Reply;
 import com.codebee.v2.memennit.R;
@@ -398,25 +399,34 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     }
 
     private void sendCommentNotification(Reply r){
-        Map<String,String> data = new HashMap<>();
-        data.put("recieverUsername",post.getUsername());
-        data.put("title",userApi.getFName() + " replied to a comment on your post.");
-        data.put("content",r.getReplyContent());
+
+        Notification notification = new Notification();
+        notification.setTitle(userApi.getFName() + " replied to a comment on your post.");
+        notification.setContent(r.getReplyContent());
+        notification.setRecieverUsername(post.getUsername());
+        notification.setTime(String.valueOf(System.currentTimeMillis()));
+        notification.setType("reply_on_post");
+        notification.setPostId(post.getTime());
 
        db.collection("Notifications")
                .document()
-               .set(data);
+               .set(notification);
+
     }
 
     private void sendReplyNotification(Reply r, int position) {
-        Map<String,String> data = new HashMap<>();
-        data.put("recieverUsername",myArr.get(position).getUsername());
-        data.put("title",userApi.getFName() + " replied to your comment on " + post.getUsername() + "'s post.");
-        data.put("content",r.getReplyContent());
+
+        Notification notification = new Notification();
+        notification.setTitle(userApi.getFName() + " replied to your comment on " + post.getUsername() + "'s post.");
+        notification.setContent(r.getReplyContent());
+        notification.setRecieverUsername(myArr.get(position).getUsername());
+        notification.setTime(String.valueOf(System.currentTimeMillis()));
+        notification.setType("reply_on_comment");
+        notification.setPostId(post.getTime());
 
         db.collection("Notifications")
                 .document()
-                .set(data);
+                .set(notification);
     }
 
 }
