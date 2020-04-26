@@ -96,7 +96,7 @@ public class PostActivity extends AppCompatActivity {
         });
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home,R.id.navigation_leaderboard, R.id.navigation_post, R.id.navigation_profile)
+                R.id.navigation_home,R.id.navigation_leaderboard, R.id.navigation_post,R.id.navigation_notification, R.id.navigation_profile)
                 .build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

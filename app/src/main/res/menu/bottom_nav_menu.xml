@@ -19,6 +19,11 @@
         android:title="Post" />
 
     <item
+        android:id="@+id/navigation_notification"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="Notifications" />
+
+    <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/profile_icon"
         android:title="Profile" />
