@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codebee.v2.memennit.Model.Comment;
+import com.codebee.v2.memennit.Model.Notification;
 import com.codebee.v2.memennit.Model.Post;
 import com.codebee.v2.memennit.Util.UserApi;
 import com.codebee.v2.memennit.ui.CommentAdapter;
@@ -29,8 +30,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CommentActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -200,13 +199,17 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void sendCommentNotification(Comment comment){
-        Map<String,String> data = new HashMap<>();
-        data.put("recieverUsername",post.getUsername());
-        data.put("title",userApi.getFName() + " commented on your post.");
-        data.put("content",comment.getCommentContent());
+
+        Notification notification = new Notification();
+        notification.setTitle(userApi.getFName() + " commented on your post.");
+        notification.setContent(comment.getCommentContent());
+        notification.setRecieverUsername(post.getUsername());
+        notification.setTime(String.valueOf(System.currentTimeMillis()));
+        notification.setType("comment_on_post");
+        notification.setPostId(post.getTime());
 
         db.collection("Notifications")
                 .document()
-                .set(data);
+                .set(notification);
     }
 }

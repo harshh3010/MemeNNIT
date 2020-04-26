@@ -1,40 +1,70 @@
 package com.codebee.v2.memennit.Model;
 
 public class Notification {
-    private String notificationMessage ;
-    private String senderUserEmail ;
-    private String recieverUserEmail;
+    private String Title;
+    private String Content;
+    private String RecieverUsername;
+    private String Type;
+    private String Time;
+    private String PostId;
 
     public Notification() {
     }
 
-    public Notification(String notificationMessage, String senderUserEmail, String recieverUserEmail) {
-        this.notificationMessage = notificationMessage;
-        this.senderUserEmail = senderUserEmail;
-        this.recieverUserEmail = recieverUserEmail;
+    public Notification(String title, String content, String recieverUsername, String type, String time,String postId) {
+        Title = title;
+        Content = content;
+        RecieverUsername = recieverUsername;
+        Type = type;
+        Time = time;
+        PostId = postId;
     }
 
-    public String getRecieverUserEmail() {
-        return recieverUserEmail;
+    public String getPostId() {
+        return PostId;
     }
 
-    public void setRecieverUserEmail(String recieverUserEmail) {
-        this.recieverUserEmail = recieverUserEmail;
+    public void setPostId(String postId) {
+        PostId = postId;
     }
 
-    public String getNotificationMessage() {
-        return notificationMessage;
+    public String getTitle() {
+        return Title;
     }
 
-    public void setNotificationMessage(String notificationMessage) {
-        this.notificationMessage = notificationMessage;
+    public void setTitle(String title) {
+        Title = title;
     }
 
-    public String getSenderUserEmail() {
-        return senderUserEmail;
+    public String getContent() {
+        return Content;
     }
 
-    public void setSenderUserEmail(String senderUserEmail) {
-        this.senderUserEmail = senderUserEmail;
+    public void setContent(String content) {
+        Content = content;
+    }
+
+    public String getRecieverUsername() {
+        return RecieverUsername;
+    }
+
+    public void setRecieverUsername(String recieverUsername) {
+        RecieverUsername = recieverUsername;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public void setType(String type) {
+        Type = type;
+    }
+
+    public String getTime() {
+        return Time;
+    }
+
+    public void setTime(String time) {
+        Time = time;
     }
 }
