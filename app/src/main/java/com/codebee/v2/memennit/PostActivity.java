@@ -87,6 +87,9 @@ public class PostActivity extends AppCompatActivity {
                             case R.id.option_edit_profile:
                                 editProfile();
                                 return true;
+                            case R.id.option_contact_developer:
+                                contactDeveloper();
+                                return true;
                             default: return false;
                         }
                     }
@@ -254,6 +257,13 @@ public class PostActivity extends AppCompatActivity {
                 });
     }
 
+    private void contactDeveloper(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(PostActivity.this);
+        builder.setTitle("Help?");
+        builder.setMessage("For any queries, please mail us at\n\n" +
+                "harsh.gyanchandani@gmail.com");
+        builder.show();
+    }
 
 }
 
