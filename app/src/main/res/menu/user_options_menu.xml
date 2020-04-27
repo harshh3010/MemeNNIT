@@ -10,4 +10,7 @@
         android:id="@+id/option_edit_profile"
         android:title="Edit Profile" />
 
+    <item
+        android:id="@+id/option_contact_developer"
+        android:title="Contact Developer" />
 </menu>
