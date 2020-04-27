@@ -212,8 +212,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                                         loadReplies(position,holder);
                                         pd.dismiss();
                                         Toast.makeText(context,"Reply posted !",Toast.LENGTH_LONG).show();
-                                        sendCommentNotification(reply);
-                                        sendReplyNotification(reply,position);
+                                        if(!(post.getUsername().equals(userApi.getUsername()))){
+                                            sendCommentNotification(reply);
+                                            sendReplyNotification(reply,position);
+                                        }
                                     }
                                 });
                     }
@@ -400,29 +402,37 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     private void sendCommentNotification(Reply r){
 
+        String time = String.valueOf(System.currentTimeMillis());
+
         Notification notification = new Notification();
         notification.setTitle(userApi.getFName() + " replied to a comment on your post.");
         notification.setContent(r.getReplyContent());
         notification.setRecieverUsername(post.getUsername());
-        notification.setTime(String.valueOf(System.currentTimeMillis()));
+        notification.setTime(time);
         notification.setType("reply_on_post");
         notification.setPostId(post.getTime());
+        notification.setId("No Id");
+        notification.setPostUsername(post.getUsername());
 
-       db.collection("Notifications")
-               .document()
-               .set(notification);
+        db.collection("Notifications")
+                .document()
+                .set(notification);
 
     }
 
     private void sendReplyNotification(Reply r, int position) {
 
+        String time = String.valueOf(System.currentTimeMillis());
+
         Notification notification = new Notification();
         notification.setTitle(userApi.getFName() + " replied to your comment on " + post.getUsername() + "'s post.");
         notification.setContent(r.getReplyContent());
         notification.setRecieverUsername(myArr.get(position).getUsername());
-        notification.setTime(String.valueOf(System.currentTimeMillis()));
+        notification.setTime(time);
         notification.setType("reply_on_comment");
         notification.setPostId(post.getTime());
+        notification.setId("No Id");
+        notification.setPostUsername(post.getUsername());
 
         db.collection("Notifications")
                 .document()

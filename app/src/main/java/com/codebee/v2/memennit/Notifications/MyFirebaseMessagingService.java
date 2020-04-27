@@ -15,7 +15,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        notifyUser(remoteMessage.getFrom(),remoteMessage.getNotification().getBody());
+        notifyUser(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
     }
     @Override
     public void onDeletedMessages() {

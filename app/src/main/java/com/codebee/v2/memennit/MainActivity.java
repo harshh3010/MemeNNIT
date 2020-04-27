@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private  String Username ;
+    UserApi userApi = UserApi.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void updateUI(final GoogleSignInAccount account) {
         if(account != null){
-            UserApi userApi = UserApi.getInstance();
             userApi.setEmail(account.getEmail());
             if(account.getPhotoUrl() == null){
                 userApi.setDPurl("https://firebasestorage.googleapis.com/v0/b/memennit-codebee.appspot.com/o/ProfilePictures%2Faccimg.jpg?alt=media&token=6cdcce94-cede-488a-a204-5848a1419f1f");
@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 DocumentSnapshot ds = task.getResult();
                 if(ds.exists()){
                     Username = ds.getString("username");
+                    userApi.setUsername(Username);
                     updateData();
                     startActivity(new Intent(MainActivity.this, PostActivity.class));
                     finish();
@@ -131,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     DocumentSnapshot ds = task.getResult();
                     assert ds != null;
                     User user = ds.toObject(User.class);
-                    UserApi userApi = UserApi.getInstance();
                     assert user != null;
                     userApi.setBio(user.getBio());
                     userApi.setFName(user.getFName());

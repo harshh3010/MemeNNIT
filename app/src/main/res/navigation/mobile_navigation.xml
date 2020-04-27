@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_navigation_home_to_navigation_profile2"
             app:destination="@id/navigation_profile2" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_notification"
+            app:destination="@id/navigation_notification" />
     </fragment>
 
     <fragment
@@ -37,7 +40,14 @@
         android:name="com.codebee.v2.memennit.ui.LeaderboardFragment"
         android:label="Leaderboard"
         tools:layout="@layout/fragment_leaderboard"
-        />
+        >
+        <action
+            android:id="@+id/action_navigation_leaderboard_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+        <action
+            android:id="@+id/action_navigation_leaderboard_to_navigation_profile2"
+            app:destination="@id/navigation_profile2" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_profile"
@@ -55,6 +65,7 @@
         android:id="@+id/navigation_notification"
         android:name="com.codebee.v2.memennit.ui.NotificationFragment"
         android:label="Notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_notifications" >
+    </fragment>
 
 </navigation>

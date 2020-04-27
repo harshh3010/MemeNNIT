@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -102,8 +103,15 @@ public class PostActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
 
-        checkLevel();
-        checkLikes();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkLevel();
+                checkLikes();
+            }
+        }
+        ,2000);
+
 
     }
 

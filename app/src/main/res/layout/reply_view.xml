@@ -4,11 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="5dp"
+    android:orientation="vertical"
+    app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/achievement_bg"
         android:paddingBottom="10dp">
 
         <TextView
@@ -19,8 +25,9 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/denk_one"
             android:text="Username"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             android:textSize="14sp"
+            android:textStyle="italic"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,11 +45,12 @@
             android:id="@+id/reply_content_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/denk_one"
             android:text="Reply content displayed here"
+            android:textColor="#FFFFFF"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +36,8 @@ public class NotificationFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private UserApi userApi = UserApi.getInstance();
     private RecyclerView.Adapter adapter;
+    private TextView no_notifications_txt;
+    private ProgressBar progressBar;
 
     public NotificationFragment(){
     }
@@ -44,6 +48,13 @@ public class NotificationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_notifications,container,false);
 
         notificationsRecyclerView = view.findViewById(R.id.notification_recycler_view);
+        no_notifications_txt = view.findViewById(R.id.no_notifications_text);
+        progressBar = view.findViewById(R.id.notifications_progressBar);
+
+        notificationsRecyclerView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        no_notifications_txt.setVisibility(View.GONE);
+
         loadNotifications();
 
         return view;
@@ -58,7 +69,9 @@ public class NotificationFragment extends Fragment {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for(QueryDocumentSnapshot snapshot : queryDocumentSnapshots){
-                            notificationArrayList.add(snapshot.toObject(Notification.class));
+                            Notification notification = snapshot.toObject(Notification.class);
+                            notification.setId(snapshot.getId());
+                            notificationArrayList.add(notification);
                         }
                         Collections.sort(notificationArrayList, new Comparator<Notification>() {
                             public int compare(Notification n1, Notification n2) {
@@ -68,6 +81,15 @@ public class NotificationFragment extends Fragment {
                         adapter = new NotificationAdapter(notificationArrayList);
                         notificationsRecyclerView.setAdapter(adapter);
                         notificationsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                        if(notificationArrayList.isEmpty()){
+                            progressBar.setVisibility(View.GONE);
+                            notificationsRecyclerView.setVisibility(View.GONE);
+                            no_notifications_txt.setVisibility(View.VISIBLE);
+                        }else{
+                            progressBar.setVisibility(View.GONE);
+                            notificationsRecyclerView.setVisibility(View.VISIBLE);
+                            no_notifications_txt.setVisibility(View.GONE);
+                        }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
