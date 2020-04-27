@@ -41,7 +41,6 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
     private UserApi userApi = UserApi.getInstance();
     private RecyclerView commentsRecyclerView;
     private RecyclerView.Adapter adapter;
-    private ArrayList<Comment> commentsArrayList;
     private Post post;
     private ImageView back_img;
     private ProgressBar progressBar;
@@ -137,7 +136,9 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                                         }
                                         pd.dismiss();
                                         Toast.makeText(CommentActivity.this,"Comment posted !",Toast.LENGTH_LONG).show();
-                                        sendCommentNotification(comment);
+                                        if(!post.getUsername().equals(userApi.getUsername())){
+                                            sendCommentNotification(comment);
+                                        }
                                     }
                                 });
                     }
@@ -151,7 +152,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public  void loadComments(){
-        commentsArrayList = new ArrayList<>();
+        ArrayList<Comment> commentsArrayList = new ArrayList<>();
 
         db.collection("Posts")
                 .document(post.getUsername())
@@ -200,13 +201,17 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
 
     private void sendCommentNotification(Comment comment){
 
+        String time = String.valueOf(System.currentTimeMillis());
+
         Notification notification = new Notification();
         notification.setTitle(userApi.getFName() + " commented on your post.");
         notification.setContent(comment.getCommentContent());
         notification.setRecieverUsername(post.getUsername());
-        notification.setTime(String.valueOf(System.currentTimeMillis()));
+        notification.setTime(time);
         notification.setType("comment_on_post");
         notification.setPostId(post.getTime());
+        notification.setId("No Id");
+        notification.setPostUsername(post.getUsername());
 
         db.collection("Notifications")
                 .document()

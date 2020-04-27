@@ -1,23 +1,43 @@
 package com.codebee.v2.memennit.Model;
 
 public class Notification {
+    private String Id;
     private String Title;
     private String Content;
     private String RecieverUsername;
     private String Type;
     private String Time;
     private String PostId;
+    private String PostUsername;
 
     public Notification() {
     }
 
-    public Notification(String title, String content, String recieverUsername, String type, String time,String postId) {
+    public Notification(String title, String content, String recieverUsername, String type, String time,String postId,String id,String postUsername) {
         Title = title;
         Content = content;
         RecieverUsername = recieverUsername;
         Type = type;
         Time = time;
         PostId = postId;
+        Id = id;
+        PostUsername = postUsername;
+    }
+
+    public String getPostUsername() {
+        return PostUsername;
+    }
+
+    public void setPostUsername(String postUsername) {
+        PostUsername = postUsername;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
     }
 
     public String getPostId() {

@@ -43,7 +43,8 @@ public class MyNotificationManager {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx,channelId)
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle(from)
-                .setContentText(notification);
+                .setContentText(notification)
+                .setContentIntent(pendingIntent);
 
         notificationManager.notify(NOTIFICATION_ID,builder.build());
 
