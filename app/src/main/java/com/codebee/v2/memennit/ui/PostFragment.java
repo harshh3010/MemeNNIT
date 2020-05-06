@@ -50,7 +50,7 @@ public class PostFragment extends Fragment {
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference("Posts");
     private UserApi userApi = UserApi.getInstance();
     private String timestamp;
-    private ProgressDialog pd ;
+    private ProgressDialog pd;
     private User user;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -71,9 +71,9 @@ public class PostFragment extends Fragment {
         upload_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(filePath == null){
-                    Snackbar.make(getView(),"Please select an image to post !", Snackbar.LENGTH_LONG).show();
-                }else{
+                if (filePath == null) {
+                    Snackbar.make(getView(), "Please select an image to post !", Snackbar.LENGTH_LONG).show();
+                } else {
                     timestamp = String.valueOf(System.currentTimeMillis());
                     pd = new ProgressDialog(getContext());
                     pd.setMessage("Please wait...");
@@ -92,52 +92,58 @@ public class PostFragment extends Fragment {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Image from here..."), PICK_IMAGE_REQUEST);
 
-        if(filePath == null){
+        if (filePath == null) {
             post_img.setImageResource(R.drawable.ic_add_a_photo_black_24dp);
         }
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == getActivity().RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
                 post_img.setImageBitmap(bitmap);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
     private void uploadImage() {
-        storageReference.child(userApi.getUsername()).child(timestamp).putFile(filePath).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                if(task.isSuccessful()){
-                    storageReference.child(userApi.getUsername()).child(timestamp).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            updatePosts(uri);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
+        storageReference
+                .child(userApi.getUsername())
+                .child(timestamp)
+                .putFile(filePath)
+                .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            storageReference
+                                    .child(userApi.getUsername())
+                                    .child(timestamp)
+                                    .getDownloadUrl()
+                                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            updatePosts(uri);
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    pd.dismiss();
+                                    resetScreen();
+                                    Toast.makeText(getContext(), "An error occured !", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } else {
                             pd.dismiss();
                             resetScreen();
-                            Toast.makeText(getContext(),"An error occured !",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Failed to upload image !", Toast.LENGTH_LONG).show();
                         }
-                    });
-                }else{
-                    pd.dismiss();
-                    resetScreen();
-                    Toast.makeText(getContext(),"Failed to upload image !",Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+                    }
+                });
     }
 
     private void updatePosts(Uri uri) {
@@ -162,7 +168,7 @@ public class PostFragment extends Fragment {
             public void onFailure(@NonNull Exception e) {
                 pd.dismiss();
                 resetScreen();
-                Toast.makeText(getContext(),"Unable to post !",Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Unable to post !", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -173,7 +179,7 @@ public class PostFragment extends Fragment {
         post_img.setImageResource(R.drawable.ic_add_a_photo_black_24dp);
     }
 
-    public void updateScore(Post post){
+    public void updateScore(Post post) {
 
         db.collection("Users")
                 .document(userApi.getUsername())
@@ -186,31 +192,31 @@ public class PostFragment extends Fragment {
 
                         long t1 = Long.parseLong(user.getLastPost());
                         long t2 = Long.parseLong(post.getTime());
-                        long diff = (t2-t1)/1000/60/60/24;
+                        long diff = (t2 - t1) / 1000 / 60 / 60 / 24;
 
                         int Streak = Integer.parseInt(user.getStreak());
-                        int MaxStreak  = Integer.parseInt(user.getMaxStreak());
+                        int MaxStreak = Integer.parseInt(user.getMaxStreak());
                         int Level = Integer.parseInt(user.getLevel());
-                        int XP  = Integer.parseInt(user.getXP());
+                        int XP = Integer.parseInt(user.getXP());
 
-                        if(diff == 1){
+                        if (diff == 1) {
                             Streak = Streak + 1;
-                            if(Streak > MaxStreak){
+                            if (Streak > MaxStreak) {
                                 MaxStreak = Streak;
                             }
-                        }else if(diff > 1){
+                        } else if (diff > 1) {
                             Streak = 0;
                         }
 
-                        XP = XP + 100 + 2*(Streak + MaxStreak);
+                        XP = XP + 100 + 2 * (Streak + MaxStreak);
 
-                        Level = XP/1000 + 1;
+                        Level = XP / 1000 + 1;
 
                         userApi.setStreak(String.valueOf(Streak));
                         userApi.setMaxStreak(String.valueOf(MaxStreak));
                         userApi.setXP(String.valueOf(XP));
 
-                        if(diff >= 1){
+                        if (diff >= 1) {
                             userApi.setLastPost(post.getTime());
                         }
 
@@ -228,12 +234,12 @@ public class PostFragment extends Fragment {
                                     public void onSuccess(Void aVoid) {
                                         resetScreen();
                                         pd.dismiss();
-                                        Toast.makeText(getContext(),"Posted successfully !",Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext(), "Posted successfully !", Toast.LENGTH_LONG).show();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getContext(),"Failed to update data !",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "Failed to update data !", Toast.LENGTH_LONG).show();
                             }
                         });
 
