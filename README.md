@@ -14,3 +14,14 @@ The users can register using their google account only.
 <br>
 <img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/SplashScreen.jpg" width="200">
 <img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/LoginScreen.jpg" width="200">
+<br>
+<br>
+ 
+ ### Home Screen
+ After logging-in, the user is brought to the **Post Activity**. This activity contains a **Bottom Navigation Bar** using 
+ which the user can navigate to different fragments in the app.
+ <br>
+ The fragment first displayed to the user is the **Home Fragment** which lists the posts uploaded by all other users in a RecyclerView.
+ Here the user can interact with these posts. He/She can like and comment on the posts and also report the post if they find it inappropriate.
+ <img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/HomeFragment.jpg" width="200">
+  <img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/CommentsActivity.jpg" width="200">
