@@ -52,7 +52,7 @@ The users can register using their google account only.
 <br>
 <br>
 
-### Profile Fragments 
+### Profile Fragments and UploadsActivity
 The user can view his profile by navigating to **ProfileFragment1** through navigation bar, and to view the profile of any other user, he has to navigate to **ProfileFragment2**.
 <br>
 In the profile fragment, the user-info is displayed and from here we can navigate to other activities which display the user's uploads and his achievements(which are not yet added :P).
@@ -61,3 +61,9 @@ In the profile fragment, the user-info is displayed and from here we can navigat
  <img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/ProfileFragment1.jpg" width="200">
     <img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/ProfilePictureView.jpg" width="200">
   <img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/ProfileFragment2.jpg" width="200">
+  <br>
+  <br>
+  The uploads are displayed in the **UploadsActivity**
+  <br>
+  <br>
+     <img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/UploadsActivity.jpg" width="200">
