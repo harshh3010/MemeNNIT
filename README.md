@@ -36,3 +36,16 @@ The users can register using their google account only.
   <br>
   <br>
  <img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/EditProfileActivity.jpg" width="200">  
+ <br>
+ <br>
+ ### Uploading some memes
+ Using bottom navigation bar, the user can navigate to the **PostFragment**. Here, he can can add a new post by choosing an image from his device storage. He can write a suitable caption and then upload this post by clicking on the upload button.
+ <br>
+ <br>
+  <img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/PostFragment.jpg" width="200">
+  <br>
+  <br>
+  In case the user wishes to edit the caption he used, he can always do so in the **Edit Post Dialog**.
+  <br>
+  <br>
+   <img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/EditPostView.jpg" width="200">
