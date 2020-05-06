@@ -148,7 +148,7 @@ public class PostFragment extends Fragment {
 
     private void updatePosts(Uri uri) {
         Post post = new Post();
-        post.setCaption(caption_txt.getText().toString());
+        post.setCaption(caption_txt.getText().toString().trim());
         post.setPostUrl(uri.toString());
         post.setTime(timestamp);
         post.setUpvotes("0");
@@ -156,14 +156,19 @@ public class PostFragment extends Fragment {
         post.setDpUrl(userApi.getDPurl());
         post.setEmail(userApi.getEmail());
 
-        db.collection("Posts").document(userApi.getUsername()).collection(userApi.getUsername()).document(timestamp).set(post).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                //update score here
-                updateScore(post);
+        db.collection("Posts")
+                .document(userApi.getUsername())
+                .collection(userApi.getUsername())
+                .document(timestamp)
+                .set(post)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //update score here
+                        updateScore(post);
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 pd.dismiss();
