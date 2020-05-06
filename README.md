@@ -79,10 +79,11 @@ This fragment also contains a searchview which is used to filter the items prese
    ### Notifications
    The users recieve the notification of various activities taking place. These notifications are sent to the users using firebase cloud messaging service. The notifications are first stored in a firestore collection, and then a cloud function is used to read this notification and then send it to user by obtaining the user's **FCM Token**.<br>
    You can find the cloud function here : 
-   [a link](https://github.com/harshh3010/MemeNNIT-Notifications)
+   [MemeNNIT-Notifications](https://github.com/harshh3010/MemeNNIT-Notifications)
    <br>
    The notifications are also listed in **NotificationFragment**, on clicking the notification, the post attached to the notification is displayed and then, the notification gets deleted from the collection.
    <br>
    <br>
    <img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/Notification.jpg" width="200">
    <img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/NotificationFragment.jpg" width="200">
+   <img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/PostView.jpg" width="200">
