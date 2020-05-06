@@ -12,4 +12,5 @@ or not and accordingly redirects the user to the **Login Screen** or the **Home 
 The users can register using their google account only.
 <br>
 <br>
-<img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/SplashScreen.jpg" width="180">
+<img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/SplashScreen.jpg" width="200">
+<img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/LoginScreen.jpg" width="200">
