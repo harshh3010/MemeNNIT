@@ -23,5 +23,16 @@ The users can register using their google account only.
  <br>
  The fragment first displayed to the user is the **Home Fragment** which lists the posts uploaded by all other users in a RecyclerView.
  Here the user can interact with these posts. He/She can like and comment on the posts and also report the post if they find it inappropriate.
+ <br>
+ <br>
  <img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/HomeFragment.jpg" width="200">
   <img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/CommentsActivity.jpg" width="200">
+  <br>
+  <br>
+  The **Post Activity** also contains a toolbar at the top displaying the logo of the app, and a settings icon.
+  <br>
+  On clicking the icon, an options menu is displayed. Through this menu, the user can sign-out of MemeNNIT or can edit his profile.
+  The user can edit his profile in the **EditProfileActivity**
+  <br>
+  <br>
+ <img src="https://github.com/harshh3010/MemeNNIT/blob/master/AppScreenshots/EditProfileActivity.jpg" width="200">  
